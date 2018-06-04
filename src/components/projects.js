@@ -24,14 +24,21 @@ const Projects = () => (
 				allow="autoplay; encrypted-media"
 				allowFullScreen
 			/>
-			<p>Augmented reality ghost-hunting game using geolocation - track ghosts in real time and view their obituaries. Available on iOS and Android. Written in C#/Unity, backend in PHP/SQL.</p>
+			<p>Augmented reality ghost-hunting game using geolocation - track ghosts in real time and view their obituaries. Available on iOS and Android. Mobile client written in C#/Unity, backend in PHP(CodeReactor)/SQL.</p>
 		</div>
 		<div className='project'>
-			<h1>Modelling of P3 Protein</h1>
-			<LazyLoad height={200} once>
-				<PDBContainer/>
-			</LazyLoad>
-			<p>At Northeastern Illinois University, I worked on an interdisciplanary team of chemists, biologists, and coders. We used atomic force microscopy, scanning tunneling microscopy, and open source C++ tools to help develop a new methodology for visualizing protein structures.</p>
+			<h1>Nano-scale Microscopy and Modelling</h1>
+			<div className='divider'>
+				<PDBContainer
+					alt='A visualization of the RpBph3 protein in its crystal structure. Coded using three.js.'
+					className='divider--element'
+				/>
+			</div>
+			<p>At <a href='https://neiu.edu/'>Northeastern Illinois University</a>, I worked on an interdisciplinary team of chemists, physicists, biologists, and coders. We used atomic force microscopy,
+				scanning tunneling microscopy, and open source C++ tools to help develop a new methodology for visualizing protein structures. You can watch and read some of that work
+				in the <a href='https://www.jove.com/video/52164/atomic-force-microscopy-red-light-photoreceptors-using-peakforce'>Journal of Visualized Experiments</a> and the 
+				<a href='https://www.cambridge.org/core/journals/mrs-online-proceedings-library-archive/article/domain-structure-of-a-unique-bacterial-red-light-photoreceptor-as-revealed-by-atomic-force-microscopy/4BACFF1159092B39ED44F2EFCA713F67'>
+				Proceedings of the Material Research Society.</a></p>
 		</div>
 	</div>
 );

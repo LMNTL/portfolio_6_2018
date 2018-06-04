@@ -144,7 +144,7 @@ class App extends Component {
 						<Route path="/aboutme" component={AboutMe} />
 					</div>
 					<div className='footer'>
-						I put a footer down here. I don't really need it but it doesn't feel right without it.
+						Built in React/Node.js, hosted on an Amazon EC2 instance. Thank you for reading this footer; it pays to be thorough.
 					</div>
 				</div>
 		) : <div className='loader'></div>;
