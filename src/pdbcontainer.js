@@ -52,7 +52,7 @@ export default class PDBContainer extends Component {
     this.scene = scene
     this.camera = camera
     this.renderer = renderer
-    this.loadMolecule("http://10.0.0.8:8080/4r70.pdb");
+    this.loadMolecule("./4r70.pdb");
     this.mount.appendChild(this.renderer.domElement);
     this.start();
   }

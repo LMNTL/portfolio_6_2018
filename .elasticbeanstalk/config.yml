@@ -2,6 +2,8 @@ branch-defaults:
   default:
     environment: portfolio
     group_suffix: null
+  master:
+    environment: portfolio2
 global:
   application_name: eb_portfolio
   branch: null
