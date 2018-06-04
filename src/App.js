@@ -126,7 +126,7 @@ class App extends Component {
 						})}
 						<h1 className="topbox--name">Jessica Thomas. </h1>
 					</div>
-					<div className='navbar'>
+					<div className='navbar' onClick={this.toggleNavbar}>
 						<p className='navbar--item'><Link to='/'>Home</Link></p>
 						<p className='navbar--item'><Link to='/projects'>Projects</Link></p>
 						<p className='navbar--item'><Link to='/aboutme'>About Me</Link></p>

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
-import { setTimeout } from 'timers';
-import { PDBLoader, CSS2DObject } from 'three-full';
+import { PDBLoader } from 'three-full';
 import './pdbcontainer.css';
 
-const url = require('url') ;
 let gifEncoder = null;
 
 export default class PDBContainer extends Component {
@@ -56,7 +54,7 @@ export default class PDBContainer extends Component {
     this.camera = camera
     this.renderer = renderer
 
-    this.loadMolecule("./4r70.pdb");
+    this.loadMolecule("https://s3.us-east-2.amazonaws.com/jsthomas-portfolio/4r70.pdb");
     this.mount.appendChild(this.renderer.domElement);
     this.start();
     this.setState({loading: false});

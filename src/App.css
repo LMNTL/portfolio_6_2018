@@ -125,7 +125,7 @@
 }
 
 .navbar {
-	position: sticky;
+	position: fixed;
 	z-index: 99;
 	top: 0px;
 	color: white;
@@ -137,9 +137,19 @@
 	margin: 0;
 	display: flex;
 	text-align: center;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: center;
 	align-content: space-around;
+}
+
+@media (min-width: 600px) {
+	.navbar {
+		position: sticky;
+		flex-direction: row;
+		right: 0px;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
 }
 
 a {
