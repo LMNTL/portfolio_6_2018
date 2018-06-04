@@ -133,7 +133,7 @@ class App extends Component {
 						<p className='navbar--item'><Link to='/contact'>Contact</Link></p>
 					</div>
 					<div className='divider'>
-							<a href='https://github.com/fairlight-excalibur/' className='divider--element'>
+							<a href='https://github.com/LMNTL/' className='divider--element'>
 								<img src='./GitHub_Logo.png' className='divider--image' alt='Github'/>
 							</a>
 					</div>
