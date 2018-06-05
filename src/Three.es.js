@@ -71792,18 +71792,19 @@ PDBLoader.prototype = {
 			for ( i = 0, l = atoms.length; i < l; i ++ ) {
 
 				var atom = atoms[ i ];
+				if(atom && atom.length){
+					var x = atom[ 0 ];
+					var y = atom[ 1 ];
+					var z = atom[ 2 ];
 
-				var x = atom[ 0 ];
-				var y = atom[ 1 ];
-				var z = atom[ 2 ];
+					verticesAtoms.push( x, y, z );
 
-				verticesAtoms.push( x, y, z );
+					var r = atom[ 3 ][ 0 ] / 255;
+					var g = atom[ 3 ][ 1 ] / 255;
+					var b = atom[ 3 ][ 2 ] / 255;
 
-				var r = atom[ 3 ][ 0 ] / 255;
-				var g = atom[ 3 ][ 1 ] / 255;
-				var b = atom[ 3 ][ 2 ] / 255;
-
-				colorsAtoms.push( r, g, b );
+					colorsAtoms.push( r, g, b );
+				}
 
 			}
 
@@ -71812,18 +71813,18 @@ PDBLoader.prototype = {
 			for ( i = 0, l = bonds.length; i < l; i ++ ) {
 
 				var bond = bonds[ i ];
+				if(bond && bond.length){
+					var start = bond[ 0 ];
+					var end = bond[ 1 ];
 
-				var start = bond[ 0 ];
-				var end = bond[ 1 ];
+					verticesBonds.push( verticesAtoms[ ( start * 3 ) + 0 ] );
+					verticesBonds.push( verticesAtoms[ ( start * 3 ) + 1 ] );
+					verticesBonds.push( verticesAtoms[ ( start * 3 ) + 2 ] );
 
-				verticesBonds.push( verticesAtoms[ ( start * 3 ) + 0 ] );
-				verticesBonds.push( verticesAtoms[ ( start * 3 ) + 1 ] );
-				verticesBonds.push( verticesAtoms[ ( start * 3 ) + 2 ] );
-
-				verticesBonds.push( verticesAtoms[ ( end * 3 ) + 0 ] );
-				verticesBonds.push( verticesAtoms[ ( end * 3 ) + 1 ] );
-				verticesBonds.push( verticesAtoms[ ( end * 3 ) + 2 ] );
-
+					verticesBonds.push( verticesAtoms[ ( end * 3 ) + 0 ] );
+					verticesBonds.push( verticesAtoms[ ( end * 3 ) + 1 ] );
+					verticesBonds.push( verticesAtoms[ ( end * 3 ) + 2 ] );
+				}
 			}
 
 			// build geometry
