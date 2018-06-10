@@ -1,7 +1,15 @@
 .threecanvas{
+    display: inline-block;
     background: linear-gradient(45deg,  #11e8bb 0%,#8200c9 100%);
-    border-radius: 2vh;
+    border-radius: 1vh;
+    margin: 0;
     box-shadow: 0.2vh 0.2vh 1vh rgba(110, 110, 110, 0.7);
+    text-align: center;
+}
+
+.gui {
+    text-align: center;
+    color: white;
 }
 
 .loader {

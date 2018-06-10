@@ -9,12 +9,19 @@ export default class PDBContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      rotating: false,
       url: '',
       lastFrame: 0,
       useFallback: false,
-      loading: true
+      loading: true,
+      gui: false
     }
+    this.rotating = true;
+    this.mouseX = 0;
+    this.mouseY = 0;
+    this.dragX = 0;
+    this.dragY = 0;
+    this.left = new THREE.Vector3(1,0,0);
+    this.up = new THREE.Vector3(0,1,0);
   }
 
   componentDidMount() {
@@ -24,6 +31,9 @@ export default class PDBContainer extends Component {
   componentWillUnmount() {
     this.stop();
     this.mount.removeChild(this.renderer.domElement);
+    window.removeEventListener('mouseup', this.stopDrag);
+    window.removeEventListener('mousemove', this.updateDrag);
+    window.removeEventListener('resize', this.resizeRenderer);
   }
 
   startRendering = () => {
@@ -36,13 +46,8 @@ export default class PDBContainer extends Component {
       0.1,
       1000
     )
-
-
-
     const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true })
     renderer.shadowMapEnabled = true;
-    //scene.background = new THREE.Color('#22aa55');
-
     camera.position.z = 150;
     renderer.autoClear = false;
     renderer.setClearColor(0x000000, 0.0);
@@ -50,14 +55,20 @@ export default class PDBContainer extends Component {
     const clock = new THREE.Clock();
 
     this.clock = clock;
-    this.scene = scene
-    this.camera = camera
-    this.renderer = renderer
+    this.scene = scene;
+    this.camera = camera;
+    this.renderer = renderer;
 
     this.loadMolecule("https://s3.us-east-2.amazonaws.com/jsthomas-portfolio/4r70.pdb");
+    window.addEventListener('resize', this.resizeRenderer);
     this.mount.appendChild(this.renderer.domElement);
     this.start();
     this.setState({loading: false});
+  }
+
+  resizeRenderer = (event) => {
+    this.renderer.setSize(this.mount.clientWidth, this.mount.clientHeight);
+    console.log("resized to " + this.mount.clientWidth)
   }
 
   start = () => {
@@ -72,11 +83,15 @@ export default class PDBContainer extends Component {
 
   animate = () => {
     const sinceLastFrame = this.clock.getDelta();
-    if(this.state.rotating){
+    if(this.rotating && !this.dragging){
       this.root.rotateY(0.1*sinceLastFrame);
       this.root.rotateX(0.04*sinceLastFrame);
     } else {
-      this.setState({rotating: true});
+      this.rotating = true;
+    }
+    if(this.dragging){
+      this.root.rotateY(this.dragX/100);
+      this.root.rotateX(this.dragY/100);
     }
     this.renderScene();
     this.frameId = window.requestAnimationFrame(this.animate);
@@ -111,15 +126,11 @@ export default class PDBContainer extends Component {
         var positions = geometryAtoms.getAttribute( 'position' );
         var colors = geometryAtoms.getAttribute( 'color' );
         var position = new THREE.Vector3();
-        var color = new THREE.Color();
         for ( var i = 0; i < positions.count; i += 5 ) {
           position.x = positions.getX( i );
           position.y = positions.getY( i );
           position.z = positions.getZ( i );
-          color.r = colors.getX( i );
-          color.g = colors.getY( i );
-          color.b = colors.getZ( i );
-          var material = new THREE.MeshNormalMaterial( { color: color } );
+          var material = new THREE.MeshNormalMaterial();
           var object = new THREE.Mesh( sphereGeometry, material );
           object.position.copy( position );
           object.position.multiplyScalar( 75 );
@@ -152,14 +163,54 @@ export default class PDBContainer extends Component {
     } );
   }
 
+  displayGUI = (event) => {
+    this.setState({gui: true})
+  }
+
+  hideGUI = (event) => {
+    this.setState({gui: false})
+  }
+
+  startDrag = (event) => {
+    event.preventDefault();
+    this.clientX = event.clientX;
+    this.clientY = event.clientY;
+    this.dragging = true;
+    this.rotating = false;
+    window.addEventListener('mouseup', this.stopDrag);
+    window.addEventListener('mousemove', this.updateDrag);
+  }
+
+  updateDrag = (event) => {
+    event.preventDefault();
+    this.dragX = event.clientX -this.clientX;
+    this.dragY = event.clientY - this.clientY;
+    this.clientX = event.clientX;
+    this.clientY = event.clientY;
+  }
+
+  stopDrag = (event) => {
+    event.preventDefault();
+    this.dragging = false;
+    this.rotating = true;
+    window.removeEventListener('mouseup', this.stopDrag);
+    window.removeEventListener('mousemove', this.updateDrag);
+  }
+
   render() {
     return (
       <div
-        style={{ width: '400px', height: '400px' }}
+        style={{ width: '60vw', height: '60vw' }}
         className='threecanvas'
+        onMouseEnter={this.displayGUI}
+        onMouseLeave={this.hideGUI}
+        draggable="true"
+        onDragStart={this.startDrag}
+        alt="A visualization of one of the proteins that I worked with, RbhP3."
         ref={(mount) => { this.mount = mount }}
       >
-        {this.state.loading ? <div className='loader'/> : null}
+        {this.state.loading && !this.state.useFallback ? <div className='loader'/> : <p className='gui'>Click and drag to rotate the molecule.</p>}
+
         {this.state.useFallback ? <img src='./pdbfallback.jpg'/> : null}
       </div>
     );

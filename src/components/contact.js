@@ -8,7 +8,8 @@ class Contact extends Component {
             name: '',
             email: '',
             message: '',
-            submitted: false
+            submitted: false,
+            submitVisible: true
         }
     }
 
@@ -30,16 +31,26 @@ class Contact extends Component {
         this.setState({submitted: true})
     }
 
+    hideForm = (event) => {
+        this.setState({submitVisible: false});
+    }
+
     render(){
         return (
             <div>
                 {this.state.submitted ?
-                    <div className='submitted'>
+                    <div
+                        className='submitted content'
+                        onAnimationEnd={this.hideForm}
+                        style={{
+                            position: (this.state.submitVisible ? 'absolute' : 'relative')
+                        }}
+                    >
                         <h1>Thank you for reaching out.</h1>
                         <h1>I'll be in contact shortly.</h1>
                     </div>
                 : null}
-                <form className='contact' onSubmit={this.submit}>
+                {this.state.submitVisible ? <form className='contact content' onSubmit={this.submit}>
                     <h1>Get in touch</h1>
                     <input
                         className='nameField textField'
@@ -67,7 +78,7 @@ class Contact extends Component {
                         type='submit'
                         name='Submit'
                     />
-                </form>
+                </form> : null }
             </div>
     )};
 };

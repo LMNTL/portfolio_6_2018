@@ -1,8 +1,9 @@
 import React from 'react';
 
 const LandingPage = () => (
-	<div className='landingPage'>
-		<p>I design things and make them happen.</p>
+	<div className='landingPage content'>
+		<p>Freelance developer.</p>
+		<p>Always ready to work.</p>
 	</div>
 );
 

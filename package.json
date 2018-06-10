@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "all": "^0.0.0",
+    "gmail-send": "^1.2.14",
     "history": "^4.7.2",
     "nodemailer": "^4.6.5",
     "prop-types": "^15.6.1",
